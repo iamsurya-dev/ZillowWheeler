@@ -1,0 +1,416 @@
+	<!DOCTYPE html>
+	<html lang="en">
+
+	<head>
+
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+
+	    <title>Wheeler</title>
+
+	    <!-- Bootstrap Core CSS -->
+	    <link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/bootstrap.css" rel="stylesheet">
+
+	    <!-- Custom CSS -->
+	    <link href="css/simple-sidebar.css" rel="stylesheet">
+		<link href="css/mycss.css" rel="stylesheet">
+		<link href="css/slider.css" rel="stylesheet">
+
+	    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	    <!--[if lt IE 9]>
+	        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+		
+	    <script src="js/jquery.js"></script>
+	    <script src="js/bootstrap.min.js"></script>
+		<script src="js/bootstrap-slider.js"></script>
+		
+		<script type="text/javascript">
+		jQuery(function($) {
+	    // Asynchronously Load the map API 
+	    var script = document.createElement('script');
+	    callJason();
+	    script.src = "http://maps.googleapis.com/maps/api/js?sensor=false&callback=initialize";
+	    document.body.appendChild(script);
+		});
+		</script>
+		<script>
+		
+		
+
+		
+
+	function callJason()
+	{
+		var coordinates=new Array();
+	var baseUrl="https://communities.socrata.com/resource/v9ab-6j5w";
+	var appendurl=baseUrl+'.json?';
+	 var building_type=document.getElementById("building_type").value;
+	 var city_name=document.getElementById("seattleCity").value;
+	 city_name="Seattle";
+	 var accessible_entry=document.getElementById("accessible_entry").checked;
+	 console.log('inside if accessible   '+accessible_entry);	
+	 console.log('inside if accessible .length  '+accessible_entry.length);
+	 var automatic_entry=document.getElementById("automatic_entry").checked;
+	 var unit_on_first_floor=document.getElementById("unit_on_first_floor").checked;
+	 var doors_have_lever_handles=document.getElementById("doors_have_lever_handles").checked;
+	 var wide_doors=document.getElementById("wide_doors").checked;
+	 console.log('wide_doors'+wide_doors);	
+	 console.log('wide_doors.length  '+wide_doors.length);
+	 if(city_name!=undefined && city_name.length != 0){
+			appendurl=appendurl+'city_name='+city_name;
+			console.log('inside if city'+city_name);	
+		}
+	 if(accessible_entry!=undefined  && accessible_entry != false)
+		{	appendurl=appendurl+'&accessible_entry='+'true';	
+		}
+		
+		if(automatic_entry!=undefined && automatic_entry != false)
+		{	appendurl=appendurl+'&automatic_entry='+'true';		
+		}
+		if(unit_on_first_floor!=undefined && unit_on_first_floor != false)
+		{	appendurl=appendurl+'&unit_on_first_floor='+'true';	
+		}
+		if(doors_have_lever_handles!=undefined && doors_have_lever_handles != false)
+		{	appendurl=appendurl+'&doors_have_lever_handles='+'true';	
+		}
+		if(wide_doors!=undefined && wide_doors != false)
+		{	appendurl=appendurl+'&wide_doors='+'true';	
+		}
+	if(building_type!=undefined && building_type != false)
+		{	appendurl=appendurl+'&building_type='+building_type;	
+		}
+		
+	 var status='Rented';
+
+	$.getJSON( appendurl, function( data ) {
+	  console.log(appendurl);
+	  console.log("data lenght :: " + data.length); 
+	  document.getElementById("cityResults").innerHTML=city_name + " rental listings";
+	  document.getElementById("results").innerHTML=data.length+" results";
+	  
+	  for(i=0;i<data.length;i++)
+	   {
+	   coordinates[i]=new Object();
+	   coordinates[i]={longitude:data[i].location.longitude,latitude:data[i].location.latitude}
+	   }
+	   console.log("start");	
+	   testMap(coordinates);
+
+	});
+	}
+
+	function initialize() {
+		console.log("Calling initialize");
+	    var map;
+	    var bounds = new google.maps.LatLngBounds();
+	    var mapOptions = {
+	        mapTypeId: 'roadmap'
+	    };
+	                    
+	    // Display a map on the page
+	    map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
+	    map.setTilt(45);
+
+	    // Multiple Markers
+	    var markers = [[47.55,-122.30]];
+		
+		if(markers!=undefined && markers.length !=0)
+			console.log("MMMM is ");
+		else 
+			markers=[[47.55,-122.30]];            
+
+	 
+	    console.log("markers length : " + markers.length);
+	    // Loop through our array of markers & place each one on the map  
+	    for( i = 0; i < markers.length; i++ ) {
+	        var position = new google.maps.LatLng(markers[i][0], markers[i][1]);
+	        bounds.extend(position);
+	        marker = new google.maps.Marker({
+	            position: position,
+	            map: map
+	        });
+	        
+	        // Automatically center the map fitting all markers on the screen
+	        map.fitBounds(bounds);
+	    }
+
+	    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+	    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+	        this.setZoom(10);
+	        google.maps.event.removeListener(boundsListener);
+	    });
+	    
+		}
+
+		function testMap(coordinates1) {
+		console.log("Calling testMap");
+	    var map;
+	    var bounds = new google.maps.LatLngBounds();
+	    var mapOptions = {
+	        mapTypeId: 'roadmap'
+	    };
+	                    
+	    // Display a map on the page
+	    map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
+	    map.setTilt(45);
+	    
+	    // Multiple Markers
+	    var markers = coordinates1;
+
+		if(markers!=undefined && markers.length !=0)
+			console.log("aria-hi");
+		else 
+			markers=[[47.55,-122.30]];
+		console.log("testMap coordinates is"+coordinates1.length);
+	    console.log("testMap markers length : " + markers.length);
+	        
+
+	    
+	    // Loop through our array of markers & place each one on the map  
+	    for( i = 0; i < markers.length; i++ ) {
+	    	if(markers[i].longitude!=undefined && markers[i].latitude!=undefined) {
+	        var position = new google.maps.LatLng(Number(markers[i].latitude), Number(markers[i].longitude));
+	        bounds.extend(position);
+	        marker = new google.maps.Marker({
+	            position: position,
+	            map: map
+	        });
+	        
+	        // Automatically center the map fitting all markers on the screen
+	        map.fitBounds(bounds);
+	    	}
+	    }
+
+	    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+	    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+	        this.setZoom(10);
+	        google.maps.event.removeListener(boundsListener);
+	    });
+
+	    
+		}
+
+	</script>
+
+	</head>
+
+	<body>
+
+	<div class="page-header">
+	  <img src="WheelerLogo4.jpg" class="img-responsive" alt="Cinque Terre" height="350px" width="350px" style="padding-left:40px">
+	</div>
+			
+	    <div id="wrapper">
+
+	        <!-- Sidebar -->
+	        <div id="sidebar-wrapper">
+	            <ul class="sidebar-nav">
+	                <!--<li class="sidebar-brand">
+	                    <a href="#">
+	                        Zillow
+	                    </a>
+	                </li>-->
+	                <li>
+					<!--<div class="row">-->
+						<!--<div class="input-group" style="padding-left: 20px">
+						  <input style="float:left" type="text" class="form-control" id="city_name" placeholder="City">
+						</div><!-- /input-group -->
+					
+					<div class="dropdown">
+					City:
+					  <button style="margin-left:10px" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+						Seattle
+						<span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="cityDrop" onclick="callJason()">
+						<li role="presentation"><a role="menuitem" tabindex="-1" id="seattleCity" href="#">Seattle</a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" id="LACity" href="#">Los Angeles</a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" id="SFOCity" href="#">San Francisco</a></li>
+					  </ul>
+					</div>
+					<!--</div><!-- /.row -->
+                </li>
+	                <li>
+
+				Beds <input id="ex1" type="text" data-slider-id='ex1Slider'  data-slider-min="0" data-slider-max="5" data-slider-step="1" data-slider-value="5"/>
+				
+				<script type="text/javascript">
+					// With JQuery
+					$('#ex1').slider({
+						formatter: function(value) {
+						   return 'Current value: ' + value;
+						   tooltip: 'show';
+						}
+					});
+				</script>
+
+                </li>
+				
+                <li>
+
+				Bath <input id="ex2" type="text" data-slider-id='ex2Slider'  data-slider-min="0" data-slider-max="5" data-slider-step="1" data-slider-value="5"/>
+				
+				<script type="text/javascript">
+					// With JQuery
+					$('#ex2').slider({
+						formatter: function(value) {
+						   return 'Current value: ' + value;
+						   tooltip: 'show';
+						}
+					});
+				</script>
+
+                </li>
+				
+				<li>
+				<div>
+				<table>
+				<tr>
+					<td><div class="dropdown">
+					  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+						Buy
+						<span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="">
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">New All</a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">New Homes</a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Coming Soon</a></li>
+					  </ul>
+					</div>
+					</td>
+
+					<td><div class="dropdown">
+					  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+						Rent
+						<span class="caret"></span>
+					  </button>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="status">
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Now Available</a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Waitlist</a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rented</a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Under Repair</a></li>
+					  </ul>
+					</div>
+					</td>
+
+					<td><div class="dropdown">
+					  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+						Home Type
+						<span class="caret"></span>
+					  </button>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="building_type">
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Houses</a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Apartments</a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Condos/Co-ops</a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Town Homes</a></li>
+					  </ul>
+					</div>
+					</td>
+				</div>
+				</tr>
+				</table>
+				
+				</li>
+				
+				<li>
+				<table>
+				<tr>
+					<td><div class="checkbox">
+					  <label><input type="checkbox" id="" style="margin-top: 12px;">Pets</label>
+					</div></td>
+
+					<td><div class="checkbox">
+					  <label><input type="checkbox" id="" style="margin-top: 12px;">Service Animals</label>
+					</div></td>
+				</tr>
+				</table>
+				</li>
+					
+					<div role="tabpanel">
+
+					  <!-- Nav tabs -->
+					  <ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active"><a href="#Entry" aria-controls="Entry" role="tab" data-toggle="tab">Entry</a></li>
+						<li role="presentation"><a href="#Bath" aria-controls="Bath" role="tab" data-toggle="tab">Bath</a></li>
+						<li role="presentation"><a href="#Kitchen" aria-controls="Kitchen" role="tab" data-toggle="tab">Kitchen</a></li>
+						<li role="presentation"><a href="#Amenities" aria-controls="Amenities" role="tab" data-toggle="tab">Amenities</a></li>
+					  </ul>
+
+					  <!-- Tab panes -->
+					  <div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" >
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" id="accessible_entry" onchange="callJason()">Ramped Entry</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" id="wide_doors" onchange="callJason()">Doorways 32" or wider</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" value="">Accessible Elevators</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" id="automatic_entry" value="" onchange="callJason()">Automatic entry doors</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" id="doors_have_lever_handles" value="" onchange="callJason()">Level type door handles</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" id="unit_on_first_floor" value="" onchange="callJason()">Unit on first floor</label>					
+						</div>
+						<div role="tabpanel" class="tab-pane" id="Bath">
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" value="">Grab Bars</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" value="">Roll in Shower</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" value="">T-Turn or 60'' turn circle</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" value="">Lowered Toilets</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" value="">Raised Toilets</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" value="">Knee space >= 27in</label>				
+						</div>
+						
+						<div role="tabpanel" class="tab-pane" id="Kitchen">
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" value="">Knee space >= 27in</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" value="">Front counter on store</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" value="">Low counter</label>									
+						</div>
+						<div role="tabpanel" class="tab-pane" id="Amenities">
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" value="">Accessible Laundry</label>
+							<label style="display:block; margin:8px"><input type="checkbox" style="margin:5px" value="">Accessible parking space</label>													
+						</div>
+					  </div>
+
+					</div>
+
+					<script>
+						$('#myTab a').click(function (e) {
+						  e.preventDefault()
+						  $(this).tab('show')
+						})				
+					</script>
+					
+
+					
+					<div class="btn-group" role="group" aria-label="..." style="padding-left:55px">
+				  <button type="button" class="btn btn-default">Save Search</button>
+				  <button type="button" class="btn btn-default">Share</button>
+				  <button type="button" class="btn btn-default">Reset</button>
+				</div>
+	            </ul>
+	        </div>
+			
+
+	        <!-- /#sidebar-wrapper -->
+
+	        <!-- Page Content -->
+	        <div id="page-content-wrapper">
+	            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="googleMap" style="width:850px;height:380px;"></div>
+						<h3 id="cityResults"></h3>
+						<h4 id="results"></h4>
+                    </div>
+                </div>
+            </div>
+	        </div>
+	        <!-- /#page-content-wrapper -->
+
+	    </div>
+	    <!-- /#wrapper -->
+	</body>
+
+	</html>
