@@ -32,17 +32,17 @@ Our team is comprised of:
 
 We made use of:
 
-Datasets:
+<b>Datasets:</b>
 https://www.google.com/url?q=https%3A%2F%2Fcommunities.socrata.com%2Fresource%2Fv9ab-6j5w.json&sa=D&sntz=1&usg=AFQjCNHp6N-x4hGZJyeFEWeO68iIl1hktw
  
 https://www.google.com/url?q=https%3A%2F%2Fdata.medicare.gov%2Fdata%2Fhospital-compare&sa=D&sntz=1&usg=AFQjCNHvVEsmpzvDSgdPTi6rxfXR0rhapQ
  
-APIs<br>
+<b>APIs</b><br>
 King County Accessible Housing (API)<br>
 SODA API<br>
 https://data.medicare.gov/
  
-Technologies<br>
+<b>Technologies</b><br>
 HTML<br>
 CSS<br>
 Java Script<br>
