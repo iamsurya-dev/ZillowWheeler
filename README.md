@@ -4,9 +4,7 @@ Wheeler brings wheelchair accessibility information forward. It's a version of Z
 
 This application was developed on February 7th, 2015 for the [Zillow Housing Hackathon](http://www.geekwire.com/calendar-event/zillow-uw-host-hack-housing-empowering-smarter-decisions-weekend-hackathon/).
 
-![Isn't our app beautiful?!](screenshot.jpg)
-
-Our app is live at http://example.com/awesome-app-that-doesnt-exist. You can log in as the demo user "unicorns" with password "sartfarkles". You can also check out [this demo screencast](https://www.youtube.com/watch?v=dQw4w9WgXcQ) of our application on YouTube.
+![Isn't our app beautiful?!](Screen4.jpg)
 
 ## Challenge and Approach
 
