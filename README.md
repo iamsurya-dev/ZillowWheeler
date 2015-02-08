@@ -37,15 +37,15 @@ https://www.google.com/url?q=https%3A%2F%2Fcommunities.socrata.com%2Fresource%2F
  
 https://www.google.com/url?q=https%3A%2F%2Fdata.medicare.gov%2Fdata%2Fhospital-compare&sa=D&sntz=1&usg=AFQjCNHvVEsmpzvDSgdPTi6rxfXR0rhapQ
  
-APIs
-King County Accessible Housing (API)
-SODA API
+APIs<br>
+King County Accessible Housing (API)<br>
+SODA API<br>
 https://data.medicare.gov/
  
-Technologies
-HTML
-CSS
-Java Script
+Technologies<br>
+HTML<br>
+CSS<br>
+Java Script<br>
 JQuery
 ## Contributing
 
