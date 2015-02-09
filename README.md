@@ -1,10 +1,10 @@
 # Zillow Housing Hackathon: Wheeler
 
-Wheeler brings wheelchair accessibility information forward. It's a version of Zillow optimized for the needs of people who use wheelchairs to get around. As it grows, Wheeler will push property owners to talk openly about compliance to ADA standards. [Github](http://github.com)
+Wheeler brings wheelchair accessibility information forward. It's a version of Zillow optimized for the needs of people who use wheelchairs to get around. As it grows, Wheeler will push property owners to talk openly about compliance to ADA standards.
 
 This application was developed on February 7th, 2015 for the [Zillow Housing Hackathon](http://www.geekwire.com/calendar-event/zillow-uw-host-hack-housing-empowering-smarter-decisions-weekend-hackathon/).
 
-![Isn't our app beautiful?!](Screen4.jpg)
+![Here is a preview of Wheeler.](Screen4.jpg)
 
 ## Challenge and Approach
 
